@@ -17,7 +17,7 @@ console.log('DeathBot Server running on: http://' + getIPAddress() + ':7000');
 
 var SerialPort = require("serialport").SerialPort
 var serialPort = new SerialPort("/dev/ttyO1", {
-  baudrate: 115200
+  baudrate: 9600
 });
 var throttle = 0;
 var LeftRight = 0;
@@ -27,26 +27,6 @@ var Claw = false;
 var Light = false;
 var RobotPower = false;
 var CameraPower = false;
-var ledRed = "P9_14";
-var ledGreen = "P8_19";
-var ledBlue = "P9_16";
-var demoMode = false;
-var demoStep = 0;
-var demoCount = 0;
-var ledDir = 0;
-var ledBright = 0;
-var SPL = 0;
-var SPR = 0;
-
-
-// configure pins and set all low
-b.pinMode(ledRed, b.OUTPUT);
-b.pinMode(ledGreen, b.OUTPUT);
-b.pinMode(ledBlue, b.OUTPUT);
-b.analogWrite(ledRed,1);
-b.analogWrite(ledBlue,1);
-b.analogWrite(ledGreen,1);
-
 
 function handler (req, res) {
   if (req.url == "/favicon.ico"){   // handle requests for favico.ico
@@ -55,11 +35,11 @@ function handler (req, res) {
   console.log('favicon requested');
   return;
   }
-  fs.readFile('/home/root/scripts/new_mobile/deathbot2.html',    // load html file
+  fs.readFile('index.html',    // load html file
   function (err, data) {
     if (err) {
       res.writeHead(500);
-      return res.end('Error loading deathbot2.html');
+      return res.end('Error loading index.html');
     }
     res.writeHead(200);
     res.end(data);
@@ -77,16 +57,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('LeftRight', function (data) {
     serialPort.write("L " + data + '\n');
     console.log("L " + data);
-  });
-  // Spin Left
-    socket.on('SPL', function (data)  {
-	serialPort.write("SPL " + data + '\n');
-    console.log("SPL " + data);
-  });
-  // Spin Right
-    socket.on('SPR', function (data)  {
-	serialPort.write("SPR " + data + '\n');
-    console.log("SPR " + data);
   });
   // Reverse mode
     socket.on('Reverse', function (data) {
@@ -160,82 +130,7 @@ io.sockets.on('connection', function (socket) {
        serialPort.write("I " + '0' + '\n');
     }
   });
-  // listen to sockets and write analog values to LED's
-  socket.on('ledRed', function (data) {
-    b.analogWrite(ledRed, 1-(data/100));
-//    console.log('Red: ' + data);
-  });
-  socket.on('ledGreen', function (data) {
-    b.analogWrite(ledGreen, 1-(data/100));
-//    console.log('Green: ' + data);
-  });
-  socket.on('ledBlue', function (data) {
-    b.analogWrite(ledBlue, 1-(data/100));
-//    console.log('Blue: ' + data);
-  });
-  socket.on('demo', function (data) {
-//    console.log("Demo: " + data);
-    // switch mode
-    if (data == 'on') {
-       demoMode = true;
-       runDemo();
-    } else if (data == 'off') {
-       demoMode = false;
-       led(1,1,1);
-    }
-  });
 });
-
-setInterval(runDemo, 10);
-function runDemo() {
-  if (demoMode === true){
-    switch (demoStep){
-      case 0:
-        led(0,1,1);
-        break;
-      case 1:
-        led(1,0,1);
-        break;
-      case 2:
-        led(1,1,0);
-        break;
-      case 3:
-        led(ledBright,1,1);
-        break;
-      case 4:
-        led(1,ledBright,1);
-        break;
-      case 5:
-        led(1,1,ledBright);       
-        break;
-      case 6:
-        led(ledBright,ledBright,ledBright);
-        break;
-      case 7:
-        led(ledBright,ledBright,ledBright);
-        break;
-      case 8:
-        demoStep = 0;         
-        break;
-    }
-
-    demoCount++;
-    if (demoCount>100){
-      demoStep++;
-      demoCount=0;
-    }
-    if (ledDir===0) ledBright=ledBright+0.02;
-    else ledBright = ledBright-0.02;
-    if (ledBright>1) ledDir=1;
-    if (ledBright<0) ledDir=0;
-  }
-}
-
-function led(red, blue, green){
-  b.analogWrite(ledRed, red);
-  b.analogWrite(ledBlue, blue);
-  b.analogWrite(ledGreen, green);  
-}
 
 // Get server IP address on LAN
 function getIPAddress() {

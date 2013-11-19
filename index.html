@@ -78,6 +78,9 @@
 	    socket.emit('Reverse', 'off');
         socket.emit('RobotPower', 'on');
 		setTimeout(DelayStopRP,1000);
+		setTimeout(DelayStopRR,1100);
+		setTimeout(DelayStopSS,1200);
+		setTimeout(DelayStopLR,1300);
     }
 	function DelayStopRP(){
         socket.emit('RobotPower', 'off');
@@ -93,7 +96,7 @@
     }
     function LL2(){
 	    socket.emit('Reverse', 'off');
-		socket.emit('SuperSpeed', 'on');
+		socket.emit('SuperSpeed', 'off');
         socket.emit('LeftRight', '-100');
 		socket.emit('RobotPower', 'on');
 		setTimeout(DelayStopRP,1000);
@@ -101,29 +104,15 @@
 		setTimeout(DelayStopSS,1200);
 		setTimeout(DelayStopLR,1300);
     }
-    function SPL(){
-	    socket.emit('SPL', '1');
-		setTimeout(DelayStopSPL,500);
-    }
-    function DelayStopSPL(){
-	    socket.emit('SPL', '0');
-    }
     function RR2(){
 	    socket.emit('Reverse', 'off');
-		socket.emit('SuperSpeed', 'on');
+		socket.emit('SuperSpeed', 'off');
         socket.emit('LeftRight', '100');
 		socket.emit('RobotPower', 'on');
 		setTimeout(DelayStopRP,1000);
 		setTimeout(DelayStopRR,1100);
 		setTimeout(DelayStopSS,1200);
 		setTimeout(DelayStopLR,1300);
-    }
-    function SPR(){
-	    socket.emit('SPR', '1');
-		setTimeout(DelayStopSPR,500);
-    }
-    function DelayStopSPR(){
-	    socket.emit('SPR', '0');
     }
     function BB2(){
 	    socket.emit('Reverse', 'on');
@@ -132,88 +121,7 @@
 		setTimeout(DelayStopRP,1000);
 		setTimeout(DelayStopRR,1100);
 		setTimeout(DelayStopSS,1200);
-    }
-	function ledRed(value){
-      socket.emit('ledRed', value);
-    }
-    function ledGreen(value){
-      socket.emit('ledGreen', value);
-    }
-    function ledBlue(value){
-      socket.emit('ledBlue', value);
-    }
-    function Demo(value){
-      socket.emit('demo', value);
-    }      
-    // Take actions based on device orientation (works on mobile devices only)
-    if (window.DeviceOrientationEvent) {
-        // Listen for the deviceorientation event and handle the raw data
-        window.addEventListener('deviceorientation', function(eventData) {
-          // gamma is the left-to-right tilt in degrees, where right is positive
-          var tiltLR = eventData.gamma;
-          // beta is the front-to-back tilt in degrees, where front is positive
-          var tiltFB = eventData.beta;
-          // call orientation event handler
-          if (Gyro.value == 'on'){
-            deviceOrientationHandler(tiltLR, tiltFB);
-          }
-        }, false);
-    }
-    else {
-        console.log("DeviceOrientation is NOT supported");
-        }
-    
-    function deviceOrientationHandler(LeftRight, FrontBack){
-        // normalize and limit values between 0 and 100
-        LeftRight = Math.min(Math.max(Math.round(LeftRight), -100), 100);
-        FrontBack = Math.min(Math.max(Math.round(FrontBack), -100), 100);
-        //LeftRight = Math.round((LeftRight/180)*100);
-        //FrontBack = Math.round((LeftRight/180)*50);
-        
-        if (LeftRight >= 0) {
-            ledGreen(LeftRight);
-            ledRed(0);
-        } 
-        if (LeftRight <= 0) {
-            ledRed(Math.abs(LeftRight));
-            ledGreen(0);
-        }
-        if (FrontBack <= 0) {
-            ledBlue(Math.abs(FrontBack));
-        }
-        if (FrontBack > 0) {
-            ledBlue(0);
-        }
-    }
-        
-    function demoSwitch(sel){
-        if (sel.value == "on") {
-            $("#Gyro").val('off').slider('refresh').slider('disable');
-            $("#slider1").val('0').slider('refresh').slider('disable');
-            $("#slider2").val('0').slider('refresh').slider('disable');
-            $("#slider3").val('0').slider('refresh').slider('disable');
-            socket.emit('demo', sel.value);
-        } else if (sel.value == "off") {
-            socket.emit('demo', sel.value);
-            $('#Gyro').slider('enable');
-            $("#slider1").slider('enable');
-            $("#slider2").slider('enable');
-            $("#slider3").slider('enable');
-        }
-    }
- 
-    function gyroSwitch(sel){
-        if (sel.value == "on") {
-            $("#Demo").val('off').slider('refresh').slider('disable');
-            $("#slider1").val('0').slider('refresh').slider('disable');
-            $("#slider2").val('0').slider('refresh').slider('disable');
-            $("#slider3").val('0').slider('refresh').slider('disable');
-        } else if (sel.value == "off") {
-            $('#Demo').slider('enable');
-            $("#slider1").slider('enable');
-            $("#slider2").slider('enable');
-            $("#slider3").slider('enable');
-        }
+		setTimeout(DelayStopLR,1300);
     }
   </script>
 
@@ -339,10 +247,6 @@
                 data-icon="arrow-l" data-iconpos="left">
                     Left
                 </a>
-                <a id="SPL" data-role="button" data-transition="pop" data-theme="b" onclick="SPL(); return false"
-                data-icon="arrow-d" data-iconpos="bottom">
-                    Spin Left
-                </a>
             </div>
             <div class="ui-block-b">
                 <a id="FF2" data-role="button" data-transition="pop" data-theme="b" onclick="FF2(); return false"
@@ -359,52 +263,7 @@
                 data-icon="arrow-r" data-iconpos="right">
                     Right
                 </a>
-                <a id="SPR" data-role="button" data-transition="pop" data-theme="b" onclick="SPR(); return false"
-                data-icon="arrow-d" data-iconpos="bottom">
-                    Spin Right
-                </a>
             </div>
-        </div>
-    </div>
-    <div data-role="content">
-        <div data-role="fieldcontain">
-            <label for="slider1">
-                Red LED
-            </label>
-            <input id="slider1" type="range" name="slider" value="0" min="0" max="100"
-            data-highlight="false" data-theme="b" onChange="ledRed(value);">
-        </div>
-        <div data-role="fieldcontain">
-            <label for="slider2">
-                Blue LED
-            </label>
-            <input id="slider2" type="range" name="slider" value="0" min="0" max="100"
-            data-highlight="false" data-theme="b" onChange="ledBlue(value);">
-        </div>
-        <div data-role="fieldcontain">
-            <label for="slider3">
-                Green LED
-            </label>
-            <input id="slider3" type="range" name="slider" value="0" min="0" max="100"
-            data-highlight="false" data-theme="b" onChange="ledGreen(value);">
-        </div>
-        <div data-role="fieldcontain">
-            <label for="Demo">
-                Demo Mode
-            </label>
-            <select name="toggleswitch1" id="Demo" data-theme="b" data-role="slider" onchange="demoSwitch(this);">
-                <option value="off">Off</option>
-                <option value="on">On</option>
-            </select>
-        </div>
-        <div data-role="fieldcontain">
-            <label for="Gyro">
-                Gyroscope
-            </label>
-            <select name="toggleswitch2" id="Gyro" data-theme="b" data-role="slider" onchange="gyroSwitch(this);">
-                <option value="off">Off</option>
-                <option value="on">On</option>
-            </select>
         </div>
     </div>
     <div data-theme="a" data-role="footer" data-position="fixed">

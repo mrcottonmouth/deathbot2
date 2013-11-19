@@ -10,11 +10,17 @@ https://www.sparkfun.com/products/8745
 
 Most of the code, examples and useful information came from these sites:
 https://github.com/lgxlogic/BoneScript-SocketIO
+
 http://jquerymobile.com/
+
 http://learn.adafruit.com/introduction-to-the-beaglebone-black-device-tree/exporting-and-unexporting-an-overlay
+
 https://github.com/voodootikigod/node-serialport
+
 http://awtfy.com/2011/05/23/a-minimal-arduino-library-for-processing-serial-commands/
+
 https://github.com/kroimon/Arduino-SerialCommand
+
 http://www.logicsupply.com/blog/2013/07/31/socket-io-control-beaglebone-black/
 
 I'm useing a cheap webcam to see where I'm going:

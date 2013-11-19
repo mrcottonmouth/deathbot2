@@ -93,7 +93,7 @@
     }
     function LL2(){
 	    socket.emit('Reverse', 'off');
-		socket.emit('SuperSpeed', 'on');
+		socket.emit('SuperSpeed', 'off');
         socket.emit('LeftRight', '-100');
 		socket.emit('RobotPower', 'on');
 		setTimeout(DelayStopRP,1000);
@@ -101,29 +101,15 @@
 		setTimeout(DelayStopSS,1200);
 		setTimeout(DelayStopLR,1300);
     }
-    function SPL(){
-	    socket.emit('SPL', '1');
-		setTimeout(DelayStopSPL,500);
-    }
-    function DelayStopSPL(){
-	    socket.emit('SPL', '0');
-    }
     function RR2(){
 	    socket.emit('Reverse', 'off');
-		socket.emit('SuperSpeed', 'on');
+		socket.emit('SuperSpeed', 'off');
         socket.emit('LeftRight', '100');
 		socket.emit('RobotPower', 'on');
 		setTimeout(DelayStopRP,1000);
 		setTimeout(DelayStopRR,1100);
 		setTimeout(DelayStopSS,1200);
 		setTimeout(DelayStopLR,1300);
-    }
-    function SPR(){
-	    socket.emit('SPR', '1');
-		setTimeout(DelayStopSPR,500);
-    }
-    function DelayStopSPR(){
-	    socket.emit('SPR', '0');
     }
     function BB2(){
 	    socket.emit('Reverse', 'on');
@@ -339,10 +325,6 @@
                 data-icon="arrow-l" data-iconpos="left">
                     Left
                 </a>
-                <a id="SPL" data-role="button" data-transition="pop" data-theme="b" onclick="SPL(); return false"
-                data-icon="arrow-d" data-iconpos="bottom">
-                    Spin Left
-                </a>
             </div>
             <div class="ui-block-b">
                 <a id="FF2" data-role="button" data-transition="pop" data-theme="b" onclick="FF2(); return false"
@@ -358,10 +340,6 @@
                 <a id="RR2" data-role="button" data-transition="pop" data-theme="b" onclick="RR2(); return false"
                 data-icon="arrow-r" data-iconpos="right">
                     Right
-                </a>
-                <a id="SPR" data-role="button" data-transition="pop" data-theme="b" onclick="SPR(); return false"
-                data-icon="arrow-d" data-iconpos="bottom">
-                    Spin Right
                 </a>
             </div>
         </div>

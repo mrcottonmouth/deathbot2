@@ -35,8 +35,6 @@ var demoStep = 0;
 var demoCount = 0;
 var ledDir = 0;
 var ledBright = 0;
-var SPL = 0;
-var SPR = 0;
 
 
 // configure pins and set all low
@@ -55,11 +53,11 @@ function handler (req, res) {
   console.log('favicon requested');
   return;
   }
-  fs.readFile('/home/root/scripts/new_mobile/deathbot2.html',    // load html file
+  fs.readFile('deathbot.html',    // load html file
   function (err, data) {
     if (err) {
       res.writeHead(500);
-      return res.end('Error loading deathbot2.html');
+      return res.end('Error loading deathbot.html');
     }
     res.writeHead(200);
     res.end(data);
@@ -77,16 +75,6 @@ io.sockets.on('connection', function (socket) {
     socket.on('LeftRight', function (data) {
     serialPort.write("L " + data + '\n');
     console.log("L " + data);
-  });
-  // Spin Left
-    socket.on('SPL', function (data)  {
-	serialPort.write("SPL " + data + '\n');
-    console.log("SPL " + data);
-  });
-  // Spin Right
-    socket.on('SPR', function (data)  {
-	serialPort.write("SPR " + data + '\n');
-    console.log("SPR " + data);
   });
   // Reverse mode
     socket.on('Reverse', function (data) {

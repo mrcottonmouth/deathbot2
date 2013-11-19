@@ -12,9 +12,7 @@ int speedpinA=9;//enable motor A
 int pinI3=12;//define I3 interface 
 int pinI4=13;//define I4 interface 
 int speedpinB=10;//enable motor B
-int spead =127;//define the spead of motor
 int led = A5;
-//#define MotionDet A1*/
 int IRcameraPin = A0;
 
 //=====[ VARIABLES ]============================================================
@@ -85,8 +83,8 @@ void loop() {
 //=====[ FUNCTIONS ]============================================================
 void Motivate()  {
   if (RobotPower != 0)  {
-    LeftSpeed = abs(Throttle + LeftTrim);
-    RightSpeed = abs(Throttle + RightTrim);
+    LeftSpeed = abs(Throttle + LeftTrim + 50);
+    RightSpeed = abs(Throttle + RightTrim + 50);
     if (SuperSpeed == 1)  {
       LeftSpeed = abs(LeftSpeed * 2);
       RightSpeed = abs(RightSpeed * 2);
@@ -102,8 +100,8 @@ void Motivate()  {
         digitalWrite(pinI3,LOW);
         digitalWrite(pinI2,LOW);//turn DC Motor A move anticlockwise
         digitalWrite(pinI1,HIGH);
-        analogWrite(speedpinA,constrain(LeftSpeed, 50, 150));//input a simulation value to set the speed
-        analogWrite(speedpinB,constrain(RightSpeed, 50, 150));
+        analogWrite(speedpinA,constrain(LeftSpeed, 50, 255));//input a simulation value to set the speed
+        analogWrite(speedpinB,constrain(RightSpeed, 50, 255));
         break;
       case 1:  //Reverse enabled
         Serial.println("Going Reverse");
@@ -115,8 +113,8 @@ void Motivate()  {
         digitalWrite(pinI3,HIGH);
         digitalWrite(pinI2,HIGH);//turn DC Motor A move clockwise
         digitalWrite(pinI1,LOW);
-        analogWrite(speedpinA,constrain(LeftSpeed, 50, 150));//input a simulation value to set the speed
-        analogWrite(speedpinB,constrain(RightSpeed, 50, 150));
+        analogWrite(speedpinA,constrain(LeftSpeed, 50, 255));//input a simulation value to set the speed
+        analogWrite(speedpinB,constrain(RightSpeed, 50, 255));
         break;
     }
       AliveFlag = 0;
@@ -148,8 +146,8 @@ void processSPL()  {
         digitalWrite(pinI3,LOW);
         digitalWrite(pinI2,HIGH);//turn DC Motor A move anticlockwise
         digitalWrite(pinI1,LOW);
-        analogWrite(speedpinA,120);
-        analogWrite(speedpinB,120);
+        analogWrite(speedpinA,250);
+        analogWrite(speedpinB,250);
         AliveFlag = 0;
         break;
       }
@@ -171,8 +169,8 @@ void processSPR()  {
         digitalWrite(pinI3,HIGH);
         digitalWrite(pinI2,LOW);//turn DC Motor A move anticlockwise
         digitalWrite(pinI1,HIGH);
-        analogWrite(speedpinA,120);
-        analogWrite(speedpinB,120);
+        analogWrite(speedpinA,250);
+        analogWrite(speedpinB,250);
         AliveFlag = 0;
         break;
       }

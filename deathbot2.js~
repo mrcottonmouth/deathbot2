@@ -55,7 +55,7 @@ function handler (req, res) {
   console.log('favicon requested');
   return;
   }
-  fs.readFile('/home/root/scripts/new_mobile/deathbot2.html',    // load html file
+  fs.readFile('deathbot2.html',    // load html file
   function (err, data) {
     if (err) {
       res.writeHead(500);

@@ -93,7 +93,7 @@
     }
     function LL2(){
 	    socket.emit('Reverse', 'off');
-		socket.emit('SuperSpeed', 'on');
+		socket.emit('SuperSpeed', 'off');
         socket.emit('LeftRight', '-100');
 		socket.emit('RobotPower', 'on');
 		setTimeout(DelayStopRP,1000);
@@ -110,7 +110,7 @@
     }
     function RR2(){
 	    socket.emit('Reverse', 'off');
-		socket.emit('SuperSpeed', 'on');
+		socket.emit('SuperSpeed', 'off');
         socket.emit('LeftRight', '100');
 		socket.emit('RobotPower', 'on');
 		setTimeout(DelayStopRP,1000);
