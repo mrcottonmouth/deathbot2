@@ -2,6 +2,10 @@ deathbot2
 =========
 Deathbot is a Arduino Uno and Beaglebone Black concept robot.
 
+Videos are on youtube:
+http://youtu.be/FJFI7UgNnnY
+http://www.youtube.com/watch?v=YN2MRrB0rxI&feature=share&list=UUeKONbVTHzb2F0MwzLN2ekw
+
 Two wheel drive motors using a SEEED Motor Shield: 
 http://www.radioshack.com/product/index.jsp?productId=13351656&filterName=Brand&filterValue=Seeed
 
