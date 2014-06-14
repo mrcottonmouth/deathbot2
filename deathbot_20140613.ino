@@ -64,7 +64,7 @@ void setup() {
 //  SCmd.addCommand("ON",    LED_on);          // Turns LED on
 //  SCmd.addCommand("OFF",   LED_off);         // Turns LED off
 //  SCmd.addCommand("HELLO", sayHello);        // Echos the string argument back
-  SCmd.addDefaultHandler(unrecognized);      // Handler for command that isn't matched  says "What?"
+//  SCmd.addDefaultHandler(unrecognized);      // Handler for command that isn't matched  says "What?"
   Serial.println("Deathbot Ready");
 }
 
