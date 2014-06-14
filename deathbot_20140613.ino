@@ -1,6 +1,7 @@
+#include <SoftwareSerial.h> 
 #include <SerialCommand.h>
-#include <NewTone.h>
-SerialCommand sCmd;     // The demo SerialCommand object
+//#include <NewTone.h>
+SerialCommand SCmd;     // The demo SerialCommand object
 
 //=====[ PINS ]=================================================================
 #define TRIGGER_PIN 4
@@ -50,26 +51,26 @@ void setup() {
   digitalWrite(speedpinB,LOW);
   Serial.begin(115200);
   // Setup callbacks for SerialCommand commands
-  sCmd.addCommand("T",     processThrottle);
-  sCmd.addCommand("L",     processLeftRight);
-  sCmd.addCommand("R",     processReverse);
-  sCmd.addCommand("C",     processClaw);
-  sCmd.addCommand("P",     processRobotPower);
-  sCmd.addCommand("S",     processSuperSpeed);
-  sCmd.addCommand("G",     processLiGht);
-  sCmd.addCommand("I",     processIRcamera);
-  sCmd.addCommand("SPL",     processSPL);
-  sCmd.addCommand("SPR",     processSPR);
-//  sCmd.addCommand("ON",    LED_on);          // Turns LED on
-//  sCmd.addCommand("OFF",   LED_off);         // Turns LED off
-//  sCmd.addCommand("HELLO", sayHello);        // Echos the string argument back
-  sCmd.setDefaultHandler(unrecognized);      // Handler for command that isn't matched  (says "What?")
+  SCmd.addCommand("T",     processThrottle);
+  SCmd.addCommand("L",     processLeftRight);
+  SCmd.addCommand("R",     processReverse);
+  SCmd.addCommand("C",     processClaw);
+  SCmd.addCommand("P",     processRobotPower);
+  SCmd.addCommand("S",     processSuperSpeed);
+  SCmd.addCommand("G",     processLiGht);
+  SCmd.addCommand("I",     processIRcamera);
+  SCmd.addCommand("SPL",     processSPL);
+  SCmd.addCommand("SPR",     processSPR);
+//  SCmd.addCommand("ON",    LED_on);          // Turns LED on
+//  SCmd.addCommand("OFF",   LED_off);         // Turns LED off
+//  SCmd.addCommand("HELLO", sayHello);        // Echos the string argument back
+  SCmd.addDefaultHandler(unrecognized);      // Handler for command that isn't matched  says "What?"
   Serial.println("Deathbot Ready");
 }
 
 //=====[ LOOP ]================================================================
 void loop() {
-  sCmd.readSerial();     // We don't do much, just process serial commands
+  SCmd.readSerial();     // We don't do much, just process serial commands
   currentMillis = millis();
   if(currentMillis - previousMillis > interval) {
       previousMillis = currentMillis;
@@ -133,7 +134,7 @@ void Stoppp()  {
 
 void processSPL()  {
   char *arg;
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     SPinL = atoi(arg);    // Converts a char string to an integer
     switch(SPinL)  {
@@ -146,8 +147,8 @@ void processSPL()  {
         digitalWrite(pinI3,LOW);
         digitalWrite(pinI2,HIGH);//turn DC Motor A move anticlockwise
         digitalWrite(pinI1,LOW);
-        analogWrite(speedpinA,250);
-        analogWrite(speedpinB,250);
+        analogWrite(speedpinA,100);
+        analogWrite(speedpinB,100);
         AliveFlag = 0;
         break;
       }
@@ -156,7 +157,7 @@ void processSPL()  {
 
 void processSPR()  {
   char *arg;
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     SPinR = atoi(arg);    // Converts a char string to an integer
     switch(SPinR)  {
@@ -169,8 +170,8 @@ void processSPR()  {
         digitalWrite(pinI3,HIGH);
         digitalWrite(pinI2,LOW);//turn DC Motor A move anticlockwise
         digitalWrite(pinI1,HIGH);
-        analogWrite(speedpinA,250);
-        analogWrite(speedpinB,250);
+        analogWrite(speedpinA,100);
+        analogWrite(speedpinB,100);
         AliveFlag = 0;
         break;
       }
@@ -180,7 +181,7 @@ void processSPR()  {
 void processThrottle() {
   char *arg;
 //  Serial.println("Throttle");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     Throttle = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("T Value: ");
@@ -195,7 +196,7 @@ void processThrottle() {
 void processLeftRight() {
   char *arg;
 //  Serial.println("LeftRight");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     LeftRight = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("L Value: ");
@@ -222,7 +223,7 @@ void processLeftRight() {
 void processReverse() {
   char *arg;
 //  Serial.println("Reverse");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     Reverse = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("R Value: ");
@@ -237,7 +238,7 @@ void processReverse() {
 void processClaw() {
   char *arg;
 //  Serial.println("Claw");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     Claw = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("C Value: ");
@@ -251,7 +252,7 @@ void processClaw() {
 void processRobotPower() {
   char *arg;
 //  Serial.println("RobotPower");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     RobotPower = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("P Value: ");
@@ -276,7 +277,7 @@ void processRobotPower() {
 void processSuperSpeed() {
   char *arg;
 //  Serial.println("SuperSpeed");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     SuperSpeed = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("S Value: ");
@@ -291,7 +292,7 @@ void processSuperSpeed() {
 void processLiGht() {
   char *arg;
 //  Serial.println("LiGht");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     LiGht = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("G Value: ");
@@ -313,7 +314,7 @@ void processLiGht() {
 void processIRcamera() {
   char *arg;
 //  Serial.println("IRcamera");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     IRcamera = atoi(arg);    // Converts a char string to an integer
 //    Serial.print("I Value: ");
@@ -333,7 +334,7 @@ void processIRcamera() {
 }
 
 // This gets set as the default handler, and gets called when no other command matches.
-void unrecognized(const char *command) {
+void unrecognized() {
 //  Serial.println("What?");
 }
 
@@ -350,7 +351,7 @@ void LED_off() {
 
 void sayHello() {
   char *arg;
-  arg = sCmd.next();    // Get the next argument from the SerialCommand object buffer
+  arg = SCmd.next();    // Get the next argument from the SerialCommand object buffer
   if (arg != NULL) {    // As long as it existed, take it
     Serial.print("Hello ");
     Serial.println(arg);
@@ -365,7 +366,7 @@ void processCommand() {
   char *arg;
 
   Serial.println("We're in processCommand");
-  arg = sCmd.next();
+  arg = SCmd.next();
   if (arg != NULL) {
     aNumber = atoi(arg);    // Converts a char string to an integer
     Serial.print("First argument was: ");
@@ -375,7 +376,7 @@ void processCommand() {
     Serial.println("No arguments");
   }
 
-  /*arg = sCmd.next();
+  /*arg = SCmd.next();
   if (arg != NULL) {
     aNumber = atol(arg);
     Serial.print("Second argument was: ");
